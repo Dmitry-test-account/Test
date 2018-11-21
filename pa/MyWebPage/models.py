@@ -38,3 +38,6 @@ class Products(models.Model):
         verbose_name = 'Модель'
         verbose_name_plural = 'Модели'
 
+    @property
+    def price_for_stripe(self):
+        return self.price * 100

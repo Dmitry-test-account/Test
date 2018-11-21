@@ -1,7 +1,11 @@
 from django.views.generic import TemplateView, ListView, FormView
 from MyWebPage.forms import RegisterForm
 from MyWebPage.models import Products, BrandType
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.conf import settings
+from django.urls import reverse
+from django.views import View
+
 
 
 
@@ -33,3 +37,23 @@ class Register(FormView):
     def form_valid(self, form):
         form.save()
         return super(Register, self).form_valid(form)
+
+
+class CheckoutView(View):
+    def post(self, request, *args, **kwargs):
+        import stripe
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        product = Products.objects.get(id=kwargs['product_id'])
+        stripe.Charge.create(
+            amount=int(product.price_for_stripe),
+            currency="usd",
+            source=request.POST['stripeToken'],  # obtained with Stripe.js
+            description=""
+        )
+        product.count -= 1
+        product.save()
+        return redirect(reverse('buy'))
+
+
+class BuyView(TemplateView):
+    template_name = 'buy.html'

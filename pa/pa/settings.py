@@ -51,7 +51,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'MyWebPage.middleware.TimeOfView'
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'MyWebPage.email.AuthByEmail'
+]
+
 
 ROOT_URLCONF = 'pa.urls'
 
@@ -66,7 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'MyWebPage.context_processor.brand_types'
+                'MyWebPage.context_processor.brand_types',
+                'MyWebPage.context_processor.stripe_pk_key'
             ],
         },
     },
@@ -127,3 +136,6 @@ MEDIA_URL = '/media/'
 MEDIA_PATH = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
+STRIPE_SECRET_KEY = "sk_test_2ce1lM16IvLKzjkHdy8kTgSl"
+STRIPE_PUBLIC_KEY = "pk_test_dcUhxateu8eg2s0ZhcuLWhBr"
+

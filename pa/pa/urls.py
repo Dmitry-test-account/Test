@@ -18,7 +18,8 @@ from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from MyWebPage.views import Home, BrandView, Register
+from MyWebPage.views import Home, BrandView, Register, CheckoutView, BuyView
+
 
 
 
@@ -28,6 +29,8 @@ urlpatterns = [
     path('brand_type/<int:brand_type_id>/', BrandView.as_view(), name='brand_type'),
     path('registration/', Register.as_view(), name='registration'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('checkout/<int:product_id>/', CheckoutView.as_view(), name='checkout'),
+    path('thanks/', BuyView.as_view(), name='buy')
 ]
 
 if settings.DEBUG:

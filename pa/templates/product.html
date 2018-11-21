@@ -1,0 +1,26 @@
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="/media/{{ product.image }}" style="max-width: 200px;">
+              <div class="caption">
+                <h3>{{ product.name }}</h3>
+                  <div class="col-md-6" >
+                <p>
+                    {{ product.description }}
+                    <br>
+                    <b>${{ product.price }}</b>
+                </p>
+                      <form method="post" action="{% url 'checkout' product.id %}">
+                        {% csrf_token %}
+                        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                data-key="{{ stripe_pk_key }}"
+                                data-amount="{{ product.price_for_stripe }}"
+                                data-name="My Market"
+                                data-description="{{ product.description }}"
+                                data-currency="usd">
+                        </script>
+                      </form>
+                  </div>
+
+              </div>
+            </div>
+        </div>
